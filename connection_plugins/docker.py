@@ -22,13 +22,13 @@ class Connection(object):
         return self
 
     def exec_command(self, cmd, tmp_path, sudo_user=None, sudoable=False,
-                     executable='/bin/sh', in_data=None, su=None,
-                     su_user=None):
+                     executable='/bin/sh', in_data=None, become=None,
+                     become_user=None):
 
         """ Run a command on the local host """
 
         # Don't currently support su
-        if su or su_user:
+        if become or become_user:
             raise errors.AnsibleError("Internal Error: this module does not "
                                       "support running commands via su")
 
@@ -36,7 +36,7 @@ class Connection(object):
             raise errors.AnsibleError("Internal Error: this module does not "
                                       "support optimized module pipelining")
 
-        if sudoable and sudo_user:
+        if sudoable and become_user:
             raise errors.AnsibleError("Internal Error: this module does not "
                                       "support running commands via sudo")
 
